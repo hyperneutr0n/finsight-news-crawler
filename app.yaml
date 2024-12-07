@@ -1,1 +1,3 @@
-runtime: node20
+runtime: nodejs20
+
+entrypoint: npm ci && npm start

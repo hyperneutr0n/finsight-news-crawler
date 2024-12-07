@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const axios = require('axios');
 const cheerio = require('cheerio');
 const puppeteer = require('puppeteer'); // Tambahkan Puppeteer
@@ -8,6 +9,8 @@ const chrome = require('selenium-webdriver/chrome');
 
 const app = express();
 const port = 3000;
+
+app.use(cors());
 
 const stockCodes = [
   'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'META', 'TSLA', 'NVDA', 'JPM', 'JNJ', 'PG',
