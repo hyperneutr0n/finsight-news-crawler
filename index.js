@@ -8,10 +8,8 @@ const port = 3000;
 
 app.use(cors());
 
-const stockCodes = [
-  'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'META', 'TSLA', 'NVDA', 'JPM', 'JNJ', 'PG',
-  '^GSPC', 'BTC-USD', 'GC=F', 'XOM', 'CVX', 'PFE', 'MRNA'
-];
+const stockCodes = ["^GSPC", "ADRO.JK", "ANTM.JK", "ASII.JK", "BBCA.JK", "BBNI.JK", "BBRI.JK", "BMRI.JK", "CTRA.JK", "GC=F", "GGRM.JK", "IDR=X", "INDF.JK", "INDY.JK", "LPKR.JK", "MYOR.JK", "PWON.JK", "UNVR.JK"]
+
 
 const processNewsPage = async (newsUrl, imgUrl) => {
   try {
@@ -72,7 +70,7 @@ app.get('/', async (req, res) => {
           }
         });
         
-        const limitedNewsUrls = Array.from(uniqueNewsUrls.entries()).slice(0, 3);
+        const limitedNewsUrls = Array.from(uniqueNewsUrls.entries()).slice(0, 1);
         console.log(limitedNewsUrls);
         const newsContents = await Promise.all(
           limitedNewsUrls.map(async ([fullUrl, imgUrl]) => {
