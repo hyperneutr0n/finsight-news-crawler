@@ -2,10 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
 const cheerio = require('cheerio');
-const puppeteer = require('puppeteer'); // Tambahkan Puppeteer
-const { formatDistanceToNow } = require('date-fns');
-const { Builder, By, until } = require('selenium-webdriver');
-const chrome = require('selenium-webdriver/chrome');
 
 const app = express();
 const port = 3000;
@@ -36,6 +32,7 @@ const processNewsPage = async (newsUrl, imgUrl) => {
     const dateAttr = $('time.byline-attr-meta-time').attr('datetime');
     const date = dateAttr ? new Date(dateAttr) : null;
     const nanoSeconds = convertToNanoseconds(date);
+
     return {
       code,
       title,
@@ -83,7 +80,6 @@ app.get('/', async (req, res) => {
             return await processNewsPage(fullUrl, imgUrl);
           })
         );
-
         allNewsContent[stockCode] = newsContents.filter(Boolean);
       })
     );
