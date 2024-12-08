@@ -147,15 +147,10 @@ app.get("/", async (req, res) => {
                 return {
                   createdAt: item.createdAt,
                   code: item.code,
-                  relatedCode: item.relatedCode,
                   title: item.title,
                   content: item.content,
                   publisherAuthor: item.publisherAuthor,
-                  percentageChange: item.percentageChange,
-                  nanoSeconds: item.nanoSeconds,
-                  dateAttr: item.dateAttr,
                   dateText: item.dateText,
-                  timeAgo: item.timeAgo,
                   imgUrl: item.imgUrl,
                 };
               }
