@@ -3,9 +3,13 @@ dotenv.config();
 const express = require("express");
 const axios = require("axios");
 const cheerio = require("cheerio");
+<<<<<<< HEAD
 const moment = require('moment');
 const got = require('got');
 const fetch = require('node-fetch')
+=======
+const moment = require("moment");
+>>>>>>> b15ba939ad2008eed75c5dd35584fc6f5d805441
 const { formatDistanceToNow } = require("date-fns");
 const { auth, db } = require("./firebase");
 const {
@@ -101,12 +105,11 @@ app.get("/", async (req, res) => {
             .closest("div.stream-item")
             .find("img.tw-bg-opacity-25")
             .attr("src");
-          //console.log("image: " + imgUrl);
           if (href) {
             const fullUrl = href.startsWith("http")
               ? href
               : `https://finance.yahoo.com${href}`;
-            uniqueNewsUrls.set(fullUrl, imgUrl); // Simpan fullUrl sebagai key dan imgUrl sebagai value
+            uniqueNewsUrls.set(fullUrl, imgUrl);
           }
         });
 
@@ -128,44 +131,51 @@ app.get("/", async (req, res) => {
 
     for (const key in allNewsContent) {
       if (Array.isArray(allNewsContent[key])) {
-        // Filter out objects with empty "code"
         allNewsContent[key] = allNewsContent[key].filter(
           (item) => item.code && item.code.trim() !== ""
         );
       }
     }
-    // Convert BigInt to string for serialization
+
     const response = JSON.parse(
       JSON.stringify(allNewsContent, (key, value) =>
         typeof value === "bigint" ? value.toString() : value
       )
     );
     console.log(response);
+
     const formattedNews = [];
     for (const key in response) {
       if (Array.isArray(response[key])) {
-        formattedNews.push(response[key].map(item => {
-          if (item.code) {
-            return {
-              createdAt: item.createdAt,
-              code: item.code,
-              relatedCode: item.relatedCode,
-              title: item.title,
-              content: item.content,
-              publisherAuthor: item.publisherAuthor,
-              percentageChange: item.percentageChange,
-              nanoSeconds: item.nanoSeconds,
-              dateAttr: item.dateAttr,
-              dateText: item.dateText,
-              timeAgo: item.timeAgo,
-              imgUrl: item.imgUrl,
-            };
-          }
-          return null;
-        }).filter(Boolean));
-        // Hapus nilai null
+        formattedNews.push(
+          ...response[key]
+            .map((item) => {
+              if (item.code) {
+                return {
+                  createdAt: item.createdAt,
+                  code: item.code,
+                  title: item.title,
+                  content: item.content,
+                  publisherAuthor: item.publisherAuthor,
+                  dateText: item.dateText,
+                  imgUrl: item.imgUrl,
+                };
+              }
+              return null;
+            })
+            .filter(Boolean) // Filter out any null values
+        );
       }
     }
+
+    // Insert each formatted news item into Firestore
+    await Promise.all(
+      formattedNews.map(async (newsItem) => {
+        if (newsItem) {
+          await addDoc(collection(db, "news"), newsItem); // Each newsItem is an object
+        }
+      })
+    );
 
     res.json({
       message: "Crawling and news extraction completed!",
@@ -192,4 +202,8 @@ app.get("/test", async (req, res) => {
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> b15ba939ad2008eed75c5dd35584fc6f5d805441
