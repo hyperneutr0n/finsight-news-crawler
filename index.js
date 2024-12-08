@@ -3,13 +3,8 @@ dotenv.config();
 const express = require("express");
 const axios = require("axios");
 const cheerio = require("cheerio");
-<<<<<<< HEAD
 const moment = require('moment');
 const got = require('got');
-const fetch = require('node-fetch')
-=======
-const moment = require("moment");
->>>>>>> b15ba939ad2008eed75c5dd35584fc6f5d805441
 const { formatDistanceToNow } = require("date-fns");
 const { auth, db } = require("./firebase");
 const {
